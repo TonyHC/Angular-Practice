@@ -6,7 +6,7 @@
     <app-sales-person-list></app-sales-person-list>     -->
 
     <!--Angular Components & DataBinding-->
-    <app-cockpit (serverCreated)="onServerAdded($event)"
+<!--     <app-cockpit (serverCreated)="onServerAdded($event)"
         (bpCreated)="onBlueprintAdded($event)"></app-cockpit>
     <hr>
     <div class="row">
@@ -38,6 +38,40 @@
             <app-odd *ngFor="let oddNumber of oddNumbers" [number]="oddNumber"></app-odd>
             <app-even *ngFor="let evenNumber of evenNumbers" [number]="evenNumber"></app-even>
         </div>
+    </div> -->
+
+    <!--Custom Directives-->
+    <!--Apply Custom Attribute Directive-->
+    <p appBasicHighlight>Style me with basic directive</p>
+    <p [appBetterHighlight]="'gray'" defaultColor="orange">Style me with better directive</p>
+
+    <!--Apply Custom Structural Directive (appUnless)-->
+    <app-cockpit (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"></app-cockpit>
+
+    <hr>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn btn-primary me-2 mb-3" (click)="onChangeFirst()">Change First Element</button>
+            <button class="btn btn-danger mb-3" (click)="onDestroyFirst()">Destroy First Component</button>
+            <app-server-element 
+                *ngFor="let serverElement of serverElements"
+                [srvElement]="serverElement"
+                [name]="serverElement.name">
+                <p #contentParagraph>
+                    <strong class="card-text" *appUnless="serverElement.type !== 'server'" style="color: red">{{ serverElement.content }}</strong>
+                    <em class="card-text" *appUnless="serverElement.type !== 'blueprint'">{{ serverElement.content }}</em>
+                </p>
+            </app-server-element>
+        </div>
     </div>
 
+    <div [ngSwitch]="quarterDate">
+        <p *ngSwitchCase="'January'">Q: January</p>
+        <p *ngSwitchCase="'April'">Q: April</p>
+        <p *ngSwitchCase="'July'">Q: July</p>
+        <p *ngSwitchCase="'October'">Q: October</p>
+        <p *ngSwitchDefault>Q: December</p>
+    </div>
 </div>
