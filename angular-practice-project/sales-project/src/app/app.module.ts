@@ -12,6 +12,13 @@ import { EvenComponent } from './even/even.component';
 import { BasicHighlightDirective } from './basic-highlight/basic-highlight-directive';
 import { BetterHighlightDirective } from './better-highlight/better-highlight.directive';
 import { UnlessDirective } from './unless/unless.directive';
+import { AccountComponent } from './account/account.component';
+import { NewAccountComponent } from './new-account/new-account.component';
+import { AccountService } from './services/account.service';
+import { LoggingService } from './services/logging.service';
+import { ActiveUsersComponent } from './active-users/active-users.component';
+import { InactiveUsersComponent } from './inactive-users/inactive-users.component';
+import { CounterService } from './services/counter.service';
 
 @NgModule({
   declarations: [
@@ -24,12 +31,21 @@ import { UnlessDirective } from './unless/unless.directive';
     EvenComponent,
     BasicHighlightDirective,
     BetterHighlightDirective,
-    UnlessDirective
+    UnlessDirective,
+    AccountComponent,
+    NewAccountComponent,
+    ActiveUsersComponent,
+    InactiveUsersComponent
   ],
   imports: [
     BrowserModule, FormsModule
   ],
-  providers: [],
+  /*  
+   * The services specific in the providers array all share the same instance for each component that make uses
+   * of these services through dependency injection. If a component wants a new (separate) instance of these services,
+   * you can override these services by specificing the service in the providers array of the component 
+  */
+  providers: [AccountService, LoggingService, CounterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

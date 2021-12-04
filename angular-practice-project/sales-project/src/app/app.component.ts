@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from './services/account.service';
+import { UserService } from './services/users.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [UserService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   quarterDate = "January";
   title = 'User Sales';
 
@@ -13,6 +16,16 @@ export class AppComponent {
 
   oddNumbers: number[] = [];
   evenNumbers: number[] = [];
+
+  accounts: {name: string, status: string}[] = [];
+
+  constructor(private accountService: AccountService) {
+
+  }
+
+  ngOnInit() {
+    this.accounts = this.accountService.accounts;
+  }
 
   onServerAdded(serverData: {serverName: string, serverContent: string}) {
     this.serverElements.push({
@@ -49,4 +62,5 @@ export class AppComponent {
   getQuarterDate() {
     return this.quarterDate;
   }
+
 }
