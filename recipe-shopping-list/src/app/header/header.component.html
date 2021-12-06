@@ -11,10 +11,10 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link"href="#" (click)="onSelect('recipe')">Recipes</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/recipes">Recipes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" (click)="onSelect('shopping-list')">Shopping List</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/shopping-list">Shopping List</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto drop-down mb-2 mb-lg-0">
@@ -23,8 +23,8 @@
                         Manage
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Save Data</a></li>
-                        <li><a class="dropdown-item" href="#">Fetch Data</a></li>
+                        <li><a class="dropdown-item">Save Data</a></li>
+                        <li><a class="dropdown-item">Fetch Data</a></li>
                     </ul>
                 </li>
             </ul>
