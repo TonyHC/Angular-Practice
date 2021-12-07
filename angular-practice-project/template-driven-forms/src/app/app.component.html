@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!--Get the access to the form created by Angular through storing ngForm in a local reference-->
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+
+        <!--Grouping Form Controls-->
+        <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <!--Tells Angular that this input is a control of a form (need ngModel and name).
+              No data binding on ngModel-->
+            <input type="text" id="username" class="form-control" 
+              ngModel name="userName" required>
+          </div>
+          
+          <button class="btn btn-secondary mt-3 mb-3 me-3" 
+            type="button"
+            (click)="suggestUserName()">
+            Suggest an Username
+          </button>
+
+          <button class="btn btn-secondary mt-3 mb-3" 
+            type="button"
+            (click)="suggestFormValues()">
+            Suggest the Form values
+          </button>
+          
+          <div class="form-group">
+            <label for="email">Mail</label>
+            <input type="email" id="email" class="form-control" 
+              ngModel name="email" required email #email="ngModel">
+              
+            <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>  
+          </div>
+        </div>
+        <p *ngIf="!userData.valid && userData.touched">User Data is invalid!</p>
+
+        <!--One way data binding on ngModel: Set default value-->
+        <div class="form-group">
+          <label for="secret" class="mt-3">Secret Questions</label>
+          <select id="secret" class="form-control" 
+            [ngModel]="defaultQuestion" name="secret" required> 
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+        </div>
+
+        <!--Two way data binding on ngModel: Update p tag if user enters something in textarea-->
+        <div class="form-group">
+          <textarea class="form-control mt-4" name="questionAnswer"
+            rows="3" [(ngModel)]="answer" required>
+          </textarea>
+        </div>
+        <p class="mt-1">Your answer: {{ answer }}</p>
+
+        <div class="radio" *ngFor="let gender of genders;">
+          <label>
+            <input  
+              type="radio"
+              name="gender"
+              [ngModel]="genders[0]"
+              [value]="gender"
+              required>
+            {{gender}}
+          </label>
+        </div>
+
+        <button class="btn btn-primary mt-3" 
+          type="submit"
+          [disabled]="!f.valid">
+          Submit
+        </button>
+
+      </form>
+
+      <hr>
+
+      <div class="row" *ngIf="submitted">
+        <div class="col-xs-12">
+          <h3>Your data</h3>
+          <p>Username: {{user.username}}</p>
+          <p>Email: {{user.email}}</p>
+          <p>Secret Question: Your first {{user.secretQuestion}}</p>
+          <p>Answer: {{user.answer}}</p>
+          <p>Gender: {{user.gender}}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
