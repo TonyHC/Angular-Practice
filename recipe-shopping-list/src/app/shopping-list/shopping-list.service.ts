@@ -1,5 +1,7 @@
-import { Subject } from "rxjs";
+import { skip, Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
+
+import { isEqual } from "lodash";
 
 export class ShoppingListService {
     ingredientsChanged = new Subject<Ingredient[]>();
@@ -25,7 +27,7 @@ export class ShoppingListService {
 
     addIngredients(ingredients: Ingredient[]) {
         for (let ingredient of ingredients) {
-            if (!this.ingredients.includes(ingredient)) {
+            if (this.ingredients.indexOf(ingredient) == -1) {
                 this.ingredients.push(ingredient);
             } 
         } 
