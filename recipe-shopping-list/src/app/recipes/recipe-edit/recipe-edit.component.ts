@@ -99,4 +99,9 @@ export class RecipeEditComponent implements OnInit {
   onClearIngredients() {
     (this.recipeForm.get('ingredients') as FormArray).clear();
   }
+
+  isRecipeIngredientsEmpty(): boolean {
+    console.log((this.recipeForm.get('ingredients') as FormArray).controls.length);
+    return (this.recipeForm.get('ingredients') as FormArray).controls.length === 0;
+  }
 }

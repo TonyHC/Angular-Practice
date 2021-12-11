@@ -8,7 +8,7 @@ import { Recipe } from "./recipe.model";
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
+    /* private recipes: Recipe[] = [
         new Recipe("Pancake", "Pancakes with raspberries", 
             "https://2aj47i3u0emv3rfnwz2zoyfm-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/pixabay.jpg",
             [
@@ -24,10 +24,17 @@ export class RecipeService {
                 new Ingredient("Spinach", 10),
                 new Ingredient("Pizza dough", 1)
             ])
-    ];
+    ]; */
+
+    private recipes: Recipe[] = [];
 
     constructor(private shoppingListService: ShoppingListService) {
 
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
     }
 
     getRecipe(index: number) {
