@@ -1,7 +1,6 @@
-import { skip, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
 
-import { isEqual } from "lodash";
 
 export class ShoppingListService {
     ingredientsChanged = new Subject<Ingredient[]>();
