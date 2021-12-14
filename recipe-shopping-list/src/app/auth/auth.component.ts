@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponenet } from '../shared/alert/alert.component';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthResponsePayload, AuthService } from './auth.service';
 
 @Component({
@@ -9,10 +11,15 @@ import { AuthResponsePayload, AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error: string = "";
+  closeSubscription!: Subscription;
+
+  // Finds the occurence of this directive
+  @ViewChild(PlaceholderDirective)
+  alertHost!: PlaceholderDirective;
 
   constructor(private authService: AuthService, private router: Router) { 
 
@@ -52,10 +59,35 @@ export class AuthComponent implements OnInit {
       error: (errorMessage) => {
         console.log(errorMessage);
         this.error = errorMessage;
+        this.showErrorAlert(errorMessage);
         this.isLoading = false;
       }
     });
 
     form.reset();
+  }
+
+  onHandleError() {
+    this.error = "";
+  }
+
+  private showErrorAlert(message: string) {
+    // Dynamically create and render a component programmatically  
+    const hostViewContainerRef = this.alertHost.viewContainterRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(AlertComponenet);
+
+    componentRef.instance.message = message;
+    this.closeSubscription = componentRef.instance.close.subscribe(() => {
+      this.closeSubscription.unsubscribe();
+      hostViewContainerRef.clear();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.closeSubscription) {
+      this.closeSubscription.unsubscribe();
+    }
   }
 }
