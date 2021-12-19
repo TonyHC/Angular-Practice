@@ -17,24 +17,15 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
 
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Recipe[] | Observable<Recipe[]> | Promise<Recipe[]> {
-        /* const recipes = this.recipeService.getRecipes();
-
-        // If we currently have no recipes once we visit a route(s) with the resolve guard, 
-        // then fetch the recipes from the backend service (to prevent a bug when accessing the recipe details/edit route, won't load the list of recipes)
-        if (recipes.length === 0) {
-            // We don't need to subscribe to fetchRecipes() because the resolve guard handles it for you
-            return this.dataStorageService.fetchRecipes();
-        } else { // Otherwise, return the list of returns
-            return recipes;
-        } */
-
+    resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Recipe[] | Observable<Recipe[]> | Promise<Recipe[]> {
         return this.store.select('recipes').pipe(
             take(1),
             map((recipeState) => {
                 return recipeState.recipes;
             }),
             switchMap((recipes) => {
+                // If we currently have no recipes once we visit a route(s) with the resolve guard, 
+                // then fetch the recipes from the backend service (to prevent a bug when accessing the recipe details/edit route, won't load the list of recipes)
                 if (recipes.length === 0) {
                     this.store.dispatch(RecipeActions.fetchRecipes());
 
@@ -43,6 +34,7 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
                         take(1)
                 );
                 } else {
+                    // Otherwise, return the list of returns (already fetched)
                     return of(recipes);
                 }
             })

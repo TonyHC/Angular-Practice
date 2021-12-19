@@ -1,4 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
+import { isEqual } from "lodash";
 import { Ingredient } from "../../shared/ingredient.model";
 import * as ShoppingListActions from "./shopping-list.actions";
 
@@ -40,7 +41,7 @@ export const shoppingListReducer = createReducer(
         })),
         on(ShoppingListActions.addIngredients, (state, { payload } ) => ({
             ...state, 
-            ingredients: [...state.ingredients, ...state.ingredients]
+            ingredients: [...state.ingredients, ...payload]
         })),
         on(ShoppingListActions.updateIngredient, (state, { payload } ) => ({
             ...state, 

@@ -35,6 +35,7 @@ export class RecipeEffects {
     storeRecipes$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RecipeActions.storeRecipes),
+            // Combines the source Observable with other Observables to create an Observable whose values are calculated from the latest values of each, only when the source emits.
             withLatestFrom(this.store.select('recipes')),
             switchMap(([actionData, recipeState]) => {
                 return  this.http.put<Recipe[]>('https://recipe-shopping-list-cee08-default-rtdb.firebaseio.com/recipes.json', recipeState.recipes);
