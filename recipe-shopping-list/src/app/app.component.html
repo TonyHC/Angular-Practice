@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div class="container pt-4 ps-4 ms-5">
     <div class="row">
-        <div class="col-md-12">
-            <router-outlet></router-outlet>
+        <div class="col-md-12" [@routeAnimations]="prepareRoute(outlet)">
+            <router-outlet #outlet="outlet"></router-outlet>
         </div>
     </div>
 </div>

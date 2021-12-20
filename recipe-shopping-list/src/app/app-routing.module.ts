@@ -3,15 +3,19 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: '/recipes', pathMatch: 'full'
+    path: '', 
+    redirectTo: '/recipes', 
+    pathMatch: 'full'
   },
   { // Lazy Loading recipes module
     path: 'recipes', 
-    loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule)
+    loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule),
+    data: { animation: 'HomePage' }
   },
   {
     path: 'shopping-list',
-    loadChildren: () => import('./shopping-list/shopping-list.module').then(m => m.ShoppingListModule)
+    loadChildren: () => import('./shopping-list/shopping-list.module').then(m => m.ShoppingListModule),
+    data: { animation: 'ShoppingListPage' }
   },
   {
     path: 'auth',
